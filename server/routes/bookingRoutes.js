@@ -180,4 +180,43 @@ router.put("/:id/confirm", async (req, res) => {
   res.json(booking);
 });
 
+// ambil booking berdasarkan user (history)
+router.get(
+  "/user/:userId",
+  async (req, res) => {
+
+    try {
+
+      const bookings =
+        await prisma.booking.findMany({
+          where: {
+            userId:
+              parseInt(
+                req.params.userId
+              ),
+          },
+
+          include: {
+            vehicle: true,
+          },
+
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
+
+      res.json(bookings);
+
+    } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+        message:
+          "Failed to fetch bookings",
+      });
+    }
+  }
+);
+
 module.exports = router;

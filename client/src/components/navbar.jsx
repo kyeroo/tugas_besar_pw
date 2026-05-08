@@ -44,7 +44,7 @@ export default function Navbar() {
         {[
             { name: "Home", path: "/" },
             { name: "Product", path: "/vehicles" },
-            { name: "Pricing", path: "/pricing" },
+            { name: "History", path: "/history" },
             { name: "Blog", path: "/blog" },
         ].map((item) => (
             <Link

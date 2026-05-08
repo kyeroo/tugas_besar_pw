@@ -66,3 +66,7 @@ app.use("/api/doku", dokuRoutes);
 const authRoutes = require("./routes/authRoutes");
 
 app.use("/api/auth", authRoutes);
+
+const history = require("./routes/bookingRoutes");
+
+app.use("/api/bookings", history);
