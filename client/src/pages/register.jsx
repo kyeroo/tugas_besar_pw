@@ -1,7 +1,7 @@
-export default function Vehicles() {
+export default function Register() {
   return (
     <div className="h-screen flex items-center justify-center text-5xl">
-      Vehicles Page
+      register Page
     </div>
   );
 }

@@ -1,28 +1,51 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
+import MainLayout from "./layouts/mainLayout";
 
 import Home from "./pages/Home";
-import Vehicles from "./pages/Vehicles";
 import Pricing from "./pages/Pricing";
 import Blog from "./pages/Blog";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import VehicleDetail from "./vehicles/Detail";
+import PaymentSuccess from "./pages/payment_success";
+
+import SearchVehicles from "./search/vehicles";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
+    
     <BrowserRouter>
-      <Navbar />
-
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/vehicles" element={<Vehicles />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/blog" element={<Blog />} />
+
+        {/* Layout utama */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/blog" element={<Blog />} />
+
+          {/* search vehicles */}
+          <Route path="/search/vehicles/:slug" element={<SearchVehicles />} />
+        </Route>
+
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
+
+        {/* detail vehicle */}
+        <Route path="/vehicles/:slug" element={<VehicleDetail />}/>
+
+        {/* payment success */}
+        <Route path="/payment-success" element={<PaymentSuccess />}/>
+
+        
+        
+
       </Routes>
     </BrowserRouter>
   );
