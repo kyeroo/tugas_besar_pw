@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
+    const token =
+    localStorage.getItem("token");
+
+    setIsLogin(!!token);
+
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -66,19 +74,33 @@ export default function Navbar() {
             scrolled ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
         >
-        <Link
-            to="/login"
-            className="text-white"
-        >
-            Login
-        </Link>
+        {isLogin ? (
+          <button
+            onClick={() => {
+              localStorage.removeItem("token");
+              setIsLogin(false);
+              navigate("/");
+            }}
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link
+                to="/login"
+                className="text-white"
+            >
+                Login
+            </Link>
 
-        <Link
-            to="/register"
-            className="bg-white text-black px-4 py-2 rounded-full"
-        >
-            Sign Up
-        </Link>
+            <Link
+                to="/register"
+                className="bg-white text-black px-4 py-2 rounded-full"
+            >
+                Sign Up
+            </Link>
+          </>
+        )}
         </div>
         </div>
 

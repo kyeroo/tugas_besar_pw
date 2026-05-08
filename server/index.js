@@ -63,3 +63,6 @@ const dokuRoutes = require("./routes/dokuRoutes");
 
 app.use("/api/doku", dokuRoutes);
 
+const authRoutes = require("./routes/authRoutes");
+
+app.use("/api/auth", authRoutes);

@@ -1,5 +1,6 @@
 const express = require("express");
 const prisma = require("../lib/prisma");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const { createInvoice } = require("../services/dokuService");
 
@@ -66,6 +67,23 @@ router.get("/:id/pay", async (req, res) => {
 
     const invoice = await createInvoice(booking);
 
+    await prisma.booking.update({
+        where: {
+            id: booking.id,
+        },
+
+        data: {
+            dokuInvoiceId:
+            invoice.response.order
+                .invoice_number,
+
+            paymentMethod: "DOKU",
+
+            paymentUrl:
+            invoice.response.payment.url,
+        },
+        });
+
     res.json(invoice);
 
   } catch (error) {
@@ -78,7 +96,7 @@ router.get("/:id/pay", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
 
   try {
 
@@ -122,8 +140,7 @@ router.post("/", async (req, res) => {
 
         vehicleId,
 
-        // sementara hardcode dulu
-        userId: 1,
+        userId: req.user.id,
       },
     });
 

@@ -10,6 +10,18 @@ export default function Detail() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const token = localStorage.getItem("token");
+
+if (!token) {
+
+  alert("Please login first");
+
+  window.location.href =
+    "/login";
+
+  return;
+}
+
   const handleBooking = async () => {
 
   try {
@@ -21,7 +33,11 @@ export default function Detail() {
         method: "POST",
 
         headers: {
-          "Content-Type": "application/json",
+        "Content-Type":
+            "application/json",
+
+        Authorization:
+            `Bearer ${token}`,
         },
 
         body: JSON.stringify({
@@ -33,6 +49,7 @@ export default function Detail() {
     );
 
     const booking = await res.json();
+    // console.log(booking);
 
     // create payment
     const paymentRes = await fetch(
